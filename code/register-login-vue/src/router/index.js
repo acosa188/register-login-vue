@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: Home,
     meta:{requiresAuth: true}
@@ -42,15 +42,19 @@ const router = new VueRouter({
   routes
 })
 
+// Default to go to login page
+
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const isAuthenticated = firebase.auth().currentUser;
 
   if(requiresAuth && !isAuthenticated){
     next("/login")
-  }else{
+  }
+  else{
     next()
   }
+
 })
 
 export default router
