@@ -1,11 +1,16 @@
 <template>
   <div class="container">
-    <div class="header-label mb-5 mr-5 pt-5 pr-5 ">Create Account</div>
+    <div class="header-label mb-5 mr-5 pt-5 pr-5">Create Account</div>
     <div v-if="error" class="error">{{ error.message }}</div>
     <form @submit.prevent="pressed">
-      <input-vue class="mb-5" name="full name" v-model="name" type="text"/>
-      <input-vue class="mb-5" name="email" v-model="email" type="text"/>
-      <input-vue class="mb-5" name="password" v-model="password" type="password" />
+      <input-vue class="mb-5" name="full name" v-model="name" type="text" />
+      <input-vue class="mb-5" name="email" v-model="email" type="text" />
+      <input-vue
+        class="mb-5"
+        name="password"
+        v-model="password"
+        type="password"
+      />
       <div class="d-flex justify-content-between align-items-center pt-3 mb-5">
         <div class="page-label">Sign up</div>
         <button-vue>
@@ -19,11 +24,12 @@
 </template>
 
 <script>
-import firebase from "firebase/app"
-import "firebase/auth"
-import InputVue from "../components/Input.vue"
+import firebase from "firebase/app";
+import "firebase/auth";
+import InputVue from "../components/Input.vue";
 import ButtonVue from "../components/Button.vue";
 import { BIcon } from "bootstrap-vue";
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -41,15 +47,18 @@ export default {
   },
   methods: {
     async pressed() {
-        try{
-            const user = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-            console.log(user)
-            this.$router.replace({name: "home"})
-        }catch(err){
-            console.log(err)
-        }
-      
+      try {
+        this.changeLoading(true);
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password);
+        this.changeLoading(false);
+        this.$router.replace({ name: "home" });
+      } catch (err) {
+        console.log(err);
+      }
     },
+    ...mapActions('app',['changeLoading'])
   },
 };
 </script>
@@ -64,18 +73,18 @@ export default {
   margin: 0;
 }
 
-.header-label{
+.header-label {
   font-size: 2.5rem;
-  color: #F5F5F5;
+  color: #f5f5f5;
 }
 
-.page-label{
+.page-label {
   font-size: 1.625rem;
-  color: #F5F5F5;
+  color: #f5f5f5;
 }
 
-.link{
+.link {
   text-decoration: underline;
-  color: #F5F5F5;
+  color: #f5f5f5;
 }
 </style>
