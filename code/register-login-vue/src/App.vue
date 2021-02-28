@@ -2,10 +2,24 @@
   <div id="app">
     <background-vue>
       <div v-if="loading">
-        <loading-vue></loading-vue>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <loading-vue></loading-vue>
+          </div>
+          <div class="col-md-8">
+          </div>
+        </div>
       </div>
       <div v-else>
-        <router-view />
+        <div class="row">
+          <div class="col-sm pt-md-5 pl-md-5">
+            <router-view />
+          </div>
+          
+          <div class="col-md-8">
+            <div class="picture-area d-none d-lg-inline-block"></div>
+          </div>
+        </div>   
       </div>
     </background-vue>
   </div>
@@ -31,6 +45,7 @@ html,
 body {
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 #app {
   font-family: Helvetica, Arial, sans-serif;
@@ -50,5 +65,13 @@ body {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.picture-area{
+  height: 100vh;
+  width: 100%;
+  background-image: url('./assets/background_2.jpg');
+  background-position: left;
+  background-size: cover;
 }
 </style>

@@ -13,7 +13,6 @@
 <style lang="scss" scoped>
     .background-vue{
         height: 100vh;
-        width: 100vw;
         background-image: url('../assets/background-mobile.jpg');
         background-size: cover;
         background-position: center;
