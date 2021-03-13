@@ -1,77 +1,84 @@
 <template>
   <div id="app">
-    <background-vue>
-      <div v-if="loading">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <loading-vue></loading-vue>
-          </div>
-          <div class="col-md-8">
-          </div>
+    <div class="is-flex is-justify-content-center is-align-items-center">
+      <div class="container">
+        <div class="app-wrapper">
+          <router-view />
         </div>
       </div>
-      <div v-else>
-        <div class="row">
-          <div class="col-sm pt-md-5 pl-md-5">
-            <router-view />
-          </div>
-          
-          <div class="col-md-8">
-            <div class="picture-area d-none d-lg-inline-block"></div>
-          </div>
-        </div>   
-      </div>
-    </background-vue>
+    </div>
   </div>
 </template>
-
-<script>
-import { mapState } from "vuex";
-import BackgroundVue from "./components/Background.vue";
-import LoadingVue from "./views/Loading.vue";
-export default {
-  components: {
-    BackgroundVue,
-    LoadingVue,
-  },
-  computed: mapState({
-    loading: (state) => state.app.loading,
-  }),
-};
-</script>
 
 <style>
 html,
 body {
   height: 100%;
-  margin: 0;
   overflow: hidden;
 }
 #app {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
   color: #2c3e50;
+  height: 100%;
+  background: #f4f2f9;
 }
 
-#nav {
-  padding: 30px;
+#app > div {
+  height: 100%;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.app-wrapper{
+  padding: 0;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.app-inner-wrapper{
+  padding: 0;
 }
 
-.picture-area{
-  height: 100vh;
-  width: 100%;
-  background-image: url('./assets/background_2.jpg');
-  background-position: left;
-  background-size: cover;
+ /* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { 
+  .app-wrapper{
+    padding: 0 50px;
+  }
+
+  .app-inner-wrapper{
+    padding: 0 50px;
+  }
+}
+
+ /* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  .app-wrapper{
+    padding: 0 100px;
+  }
+
+  .app-inner-wrapper{
+    padding: 0 80px;
+  }
+}
+
+ /* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .app-wrapper{
+    padding: 0 150px;
+  }
+
+  .app-inner-wrapper{
+    padding: 0 100px;
+  }
+}
+
+ /* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+  .app-wrapper{
+    padding: 0 250px;
+  }
+
+  .app-inner-wrapper{
+    padding: 0 200px;
+  }
 }
 </style>

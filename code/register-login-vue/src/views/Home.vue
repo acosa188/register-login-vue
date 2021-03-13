@@ -1,58 +1,81 @@
 <template>
-  <div class="container">
-    <div class="header-label mb-5 mr-5 pt-5 pr-5">Home</div>
-    <div class="message-label pt-5 mb-5">"You are awesome"</div>
-    <form @submit.prevent="pressed" class="pt-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="page-label">Sign out</div>
-        <button-vue>
-          <b-icon icon="box-arrow-right" variant="light" class="h3" />
-        </button-vue>
+  <div class="home">
+    <div class="container">
+      <div class="box">
+        <transition appear name="fade">
+          <h1 class="title">Hello, Patricia</h1>
+        </transition>
+        <transition appear name="slide-fade">
+          <h3>You still have tons of work to do.</h3>
+        </transition>
+        <div class="is-flex is-flex-direction-row">
+        <h2 class="title is-5"><span>Getting tired?</span></h2>
+        </div>
+        <h5 class="subtitle is-7">Simply <a @click="signOutHandler">sign out</a></h5>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
+// @ is an alias to /src
 import firebase from "firebase/app";
 import "firebase/auth";
-import ButtonVue from "../components/Button.vue";
-import { BIcon } from "bootstrap-vue";
+
 export default {
-  components: {
-    BIcon,
-    ButtonVue,
-  },
-  methods: {
-    async pressed() {
-        try{
-            await firebase.auth().signOut()
-            this.$router.replace({name:"login"})
-        }catch(err){
-            console.log(err)
-        }
-    },
-  },
-};
+  name: 'Home',
+  methods:{
+    async signOutHandler(){
+      try{
+        await firebase.auth().signOut()
+        this.$router.replace({name:"signin"})
+      }catch(e){
+        console.log(e)
+      }
+    }
+  }
+}
 </script>
 
-<style lang="scss" scoped>
-.header-label {
-  font-size: 1.625rem;
-  color: #8d8d8d;
+<style scoped>
+.home{
+  width: 100%;
+}
+h3{
+  margin-bottom: 100px;
+}
+h2 {
+   width: 100%; 
+   text-align: center; 
+   border-bottom: 2px solid rgba(90, 89, 89, 0.61); 
+   line-height: 0.1em;
+   margin: 10px 0 20px; 
+} 
+
+h2 span { 
+    background:#fff; 
+    padding:0 10px; 
 }
 
-.message-label {
-  font-size: 2.5rem;
-  color: #8d8d8d;
+/* Transitions */
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
-.page-label {
-  font-size: 1.625rem;
-  color: #8d8d8d;
+.slide-fade-enter-active {
+  transition: all 1.2s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(50px);
+  opacity: 0;
 }
 
-.h3 {
-  margin: 0;
-}
 </style>
