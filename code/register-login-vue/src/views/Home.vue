@@ -3,7 +3,7 @@
     <div class="container">
       <div class="box">
         <transition appear name="fade">
-          <h1 class="title">Hello, Patricia</h1>
+          <h1 class="title">Hello, {{username}}</h1>
         </transition>
         <transition appear name="slide-fade">
           <h3>You still have tons of work to do.</h3>
@@ -21,18 +21,38 @@
 // @ is an alias to /src
 import firebase from "firebase/app";
 import "firebase/auth";
+const axios = require("axios").default;
 
 export default {
   name: 'Home',
+  data(){
+    return{
+      username: ""
+    }
+  },
   methods:{
     async signOutHandler(){
       try{
         await firebase.auth().signOut()
+        // Delete the token
+        localStorage.token = "";
+        localStorage.uid = "";
+
+        this.$store.dispatch("default")
         this.$router.replace({name:"signin"})
       }catch(e){
         console.log(e)
       }
     }
+  },
+  async mounted(){
+    const { data } = await axios.get(`https://arjuan-auth.herokuapp.com/api/user/${this.$store.state.uid || localStorage.uid}`,
+    {
+      headers:{
+        "auth-token":this.$store.state.token || localStorage.token
+      }
+    });
+    this.username = data;
   }
 }
 </script>
